@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>LNIG Customer Support Chatbot</title>
+
+</head>
+<body>
+  <!-- Chat Widget -->
+  <div class="chat-widget">
+      <button class="chat-toggle-btn" id="chatToggle">
+          <span class="icon chat-icon">💬</span>
+          <span class="icon close-icon">✕</span>
+          <div class="notification-badge" id="notificationBadge">1</div>
+      </button>
+      
+      <div class="chat-container" id="chatContainer">
+          <div class="chat-header">
+              <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjgwIiB2aWV3Qm94PSIwIDAgMjAwIDgwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8IS0tIEJsdWUgVHJpYW5nbGUgLS0+CjxwYXRoIGQ9Ik0wIDUwTDI1IDEwTDUwIDUwSDBaIiBmaWxsPSIjMDA3QkNGIi8+CjxwYXRoIGQ9Ik0xMCA1MEwyNSAzMEw0MCA1MEgxMFoiIGZpbGw9IiM1Q0I4RjIiLz4KPCEtLSBTbWFsbCBCbHVlIERpYW1vbmQgLS0+CjxwYXRoIGQ9Ik0xNSA4TDE5IDEyTDE1IDE2TDExIDEyTDE1IDhaIiBmaWxsPSIjNUNCOEYyIi8+CjwhLS0gTE5JRyBUZXh0IC0tPgo8dGV4dCB4PSI2MCIgeT0iNDAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIzMiIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IiMwMDdCQ0YiPkxOSUc8L3RleHQ+CjwhLS0gSG9sbGFyZCBUZXh0IC0tPgo8dGV4dCB4PSI2MCIgeT0iNjAiIGZvbnQtZmFtaWx5PSJBcmlhbCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxOCIgZm9udC13ZWlnaHQ9IjUwMCIgZmlsbD0iIzhEMzQ5QyI+SG9sbGFyZC48L3RleHQ+Cjwvc3ZnPgo=" alt="LNIG Hollard Logo" class="header-logo">
+              <div class="header-text">
+                  <h1>LNIG Customer Support</h1>
+                  <p>We're here to help you 24/7</p>
+              </div>
+              <div class="status-indicator"></div>
+          </div>
+          
+          <div id="chatbox">
+              <div class="welcome-message">
+                  <h3>Welcome to LNIG Customer Support!</h3>
+                  <p>Hi there! I'm your virtual assistant. How can I help you today?</p>
+              </div>
+          </div>
+          
+          <div class="input-container">
+              <input id="user-input" type="text" placeholder="Type your message here..." autocomplete="off" />
+              <button id="send-btn">→</button>
+          </div>
+      </div>
+  </div>
+
+    <script src="chat.js"></script>
+</body>
+</html>
