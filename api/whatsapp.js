@@ -1,4 +1,4 @@
-import { handleChat } from './chat';
+import { handleChat } from './chat.js';
 
 export default async function handler(req, res) {
   if (req.method === 'GET') {
