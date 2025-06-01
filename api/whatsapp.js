@@ -41,6 +41,8 @@ export default async function handler(req, res) {
     try {
       const body = req.body;
 
+      console.log('Received POST request body:', JSON.stringify(body, null, 2));
+
       // Check if this is a WhatsApp message
       if (body.object === 'whatsapp_business_account') {
         const entry = body.entry[0];
@@ -53,6 +55,7 @@ export default async function handler(req, res) {
           const messageBody = message.text?.body;
 
           if (messageBody) {
+            console.log('Processing message body:', messageBody);
             // Process the message using your existing chat handler
             const chatResponse = await handleChat({
               messages: [{ role: 'user', content: messageBody }]
