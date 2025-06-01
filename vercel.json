@@ -10,55 +10,42 @@
       "use": "@vercel/node"
     }
   ],
-  "rewrites": [
+  "routes": [
     {
-      "source": "/api/chat",
-      "destination": "/api/chat.js"
+      "src": "/api/chat",
+      "dest": "/api/chat.js",
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+      }
     },
     {
-      "source": "/api/whatsapp",
-      "destination": "/api/whatsapp.js"
+      "src": "/api/whatsapp",
+      "dest": "/api/whatsapp.js",
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+      }
     },
     {
-      "source": "/(.*)",
-      "destination": "/index.js"
-    }
-  ],
-  "headers": [
-    {
-      "source": "/style.css",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "text/css"
-        }
-      ]
+      "src": "/style.css",
+      "dest": "/public/style.css",
+      "headers": {
+        "Content-Type": "text/css"
+      }
     },
     {
-      "source": "/chat.js",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "application/javascript"
-        }
-      ]
+      "src": "/chat.js",
+      "dest": "/public/chat.js",
+      "headers": {
+        "Content-Type": "application/javascript"
+      }
     },
     {
-      "source": "/api/(.*)",
-      "headers": [
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
-        },
-        {
-          "key": "Access-Control-Allow-Methods",
-          "value": "GET, POST, OPTIONS"
-        },
-        {
-          "key": "Access-Control-Allow-Headers",
-          "value": "Content-Type"
-        }
-      ]
+      "src": "/(.*)",
+      "dest": "/index.js"
     }
   ]
 } 
