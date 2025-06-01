@@ -8,6 +8,10 @@
     {
       "src": "api/**/*.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "public/**/*",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -42,6 +46,10 @@
       "headers": {
         "Content-Type": "application/javascript"
       }
+    },
+    {
+      "src": "/index.html",
+      "dest": "/public/index.html"
     },
     {
       "src": "/(.*)",
