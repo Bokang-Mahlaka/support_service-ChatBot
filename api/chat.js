@@ -1,34 +1,26 @@
-import 'dotenv/config';
+import path from 'path';
 import fs from 'fs';
 import fetch from 'node-fetch';
 
-export default async function handler(req, res) {
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
-
+export async function handleChat({ messages }) {
   const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
   if (!GEMINI_API_KEY) {
-    return res.status(500).json({ error: 'API key not configured' });
+    throw new Error('API key not configured');
   }
 
-  let messages;
-  try {
-    messages = req.body.messages;
-  } catch {
-    return res.status(400).json({ error: 'Invalid JSON' });
-  }
   if (!messages || !Array.isArray(messages)) {
-    return res.status(400).json({ error: 'Invalid request: messages required' });
+    throw new Error('Invalid request: messages required');
   }
 
   // Read knowledge base from file
   let knowledgeBase = '';
   try {
-    knowledgeBase = fs.readFileSync('knowledge_base.txt', 'utf-8');
+    const filePath = path.join(process.cwd(), 'public', 'knowledge_base.txt');
+    knowledgeBase = fs.readFileSync(filePath, 'utf-8');
   } catch (err) {
-    return res.status(500).json({ error: 'Knowledge base file not found.' });
+    throw new Error('Knowledge base file not found.');
   }
+
   const systemPrompt = `### Role
 - Primary Function: You are a customer support agent here to assist users based on specific training data provided. Your main objective is to inform, clarify, and answer questions strictly related to this training data and your role.
                 
@@ -48,33 +40,43 @@ export default async function handler(req, res) {
    - Item three
    
 `;
+
   // Only send the latest user message
   const lastUserMessage = messages
     .filter(m => m.role === 'user')
     .slice(-1)[0]?.content || '';
   const prompt = `${systemPrompt}\nUser: ${lastUserMessage}`;
 
-  try {
-    const geminiRes = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }]
-        }),
-      }
-    );
-
-    if (!geminiRes.ok) {
-      const error = await geminiRes.json();
-      return res.status(geminiRes.status).json({ error: error.error?.message || 'Gemini API error' });
+  const geminiRes = await fetch(
+    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
+    {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }]
+      }),
     }
+  );
 
-    const data = await geminiRes.json();
-    const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response from Gemini.';
-    res.status(200).json({ reply });
-  } catch (err) {
-    res.status(500).json({ error: 'Server error: ' + err.message });
+  if (!geminiRes.ok) {
+    const error = await geminiRes.json();
+    throw new Error(error.error?.message || 'Gemini API error');
   }
-} 
+
+  const data = await geminiRes.json();
+  return { reply: data.candidates?.[0]?.content?.parts?.[0]?.text || 'No response from Gemini.' };
+}
+
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
+
+  try {
+    const messages = req.body.messages;
+    const response = await handleChat({ messages });
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
