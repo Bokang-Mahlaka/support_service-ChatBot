@@ -16,7 +16,7 @@ if (!VERIFY_TOKEN) {
 }
 
 async function testWebhook() {
-  const webhookUrl = 'https://support-service-chat-dbfl32z5z-bokang-mahlakas-projects.vercel.app/api/whatsapp';
+  const webhookUrl = 'https://support-service-chat-4nwxk72ri-bokang-mahlakas-projects.vercel.app/api/whatsapp';
   
   // Test 1: Basic GET request
   console.log('\nTest 1: Basic GET request');
