@@ -8,10 +8,6 @@
     {
       "src": "api/**/*.js",
       "use": "@vercel/node"
-    },
-    {
-      "src": "public/**/*",
-      "use": "@vercel/static"
     }
   ],
   "rewrites": [
@@ -26,7 +22,7 @@
   ],
   "headers": [
     {
-      "source": "/(.*).css",
+      "source": "/style.css",
       "headers": [
         {
           "key": "Content-Type",
@@ -35,7 +31,7 @@
       ]
     },
     {
-      "source": "/(.*).js",
+      "source": "/chat.js",
       "headers": [
         {
           "key": "Content-Type",
