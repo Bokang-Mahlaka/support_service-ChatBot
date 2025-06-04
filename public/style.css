@@ -360,6 +360,9 @@ body {
     margin-bottom: 10px;
 }
 
+/* Suggested Messages Styles */
+/* Removed suggestion styles */
+
 /* Responsive styles */
 @media (max-width: 768px) {
     .chat-container {

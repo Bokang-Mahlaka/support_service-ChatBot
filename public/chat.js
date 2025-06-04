@@ -123,6 +123,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ messages }),
                 });
+                
+                if (!res.ok) {
+                    const errorData = await res.json();
+                    throw new Error(errorData.details || errorData.error || 'Server error');
+                }
+                
                 const data = await res.json();
                 
                 removeTypingIndicator();
@@ -132,8 +138,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     messages.push({ role: 'assistant', content: data.reply });
                 }
             } catch (err) {
+                console.error('Chat error:', err);
                 removeTypingIndicator();
-                appendMessage('assistant', 'Sorry, I\'m having trouble connecting right now. Please try again.');
+                appendMessage('assistant', `Error: ${err.message || 'Sorry, I\'m having trouble connecting right now. Please try again.'}`);
             }
             
             sendBtn.disabled = false;
